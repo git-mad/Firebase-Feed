@@ -16,4 +16,8 @@ public interface IFirebaseSource
 
     User getUser(int id);
 
+    /*
+        void upvote(int postId);
+     */
+
 }

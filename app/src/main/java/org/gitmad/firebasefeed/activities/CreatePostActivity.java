@@ -14,6 +14,8 @@ import org.gitmad.firebasefeed.R;
 
 public class CreatePostActivity extends ActionBarActivity {
 
+    public static final String KEY_USER = "userkey";
+
     private EditText titleEditText;
     private EditText postEditText;
     private Button submitButton, cancelButton;

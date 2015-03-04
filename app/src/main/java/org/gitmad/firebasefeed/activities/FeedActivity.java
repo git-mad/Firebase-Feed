@@ -1,5 +1,6 @@
 package org.gitmad.firebasefeed.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,26 +12,36 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.gitmad.firebasefeed.R;
+import org.gitmad.firebasefeed.firebase.IFirebaseSource;
 import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class FeedActivity extends ActionBarActivity {
 
-    private ArrayList<Post> postList = new ArrayList<Post>();
+    private List<Post> postList;
     private User currentUser;
+
+    private IFirebaseSource firebaseSource;
+    //TODO instantiate this somewhere
+    private ArrayAdapter<Post> postArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
+        //initialize post list to be updated later//
+        postList = new ArrayList<>();
+
         final ListView postsListView = (ListView) findViewById(R.id.postsListView);
 
         //anon inner ArrayAdapter subclass to display upvotes//
-        ArrayAdapter<Post> postArrayAdapter = new ArrayAdapter<Post>(this, R.layout.post_list_item,
+        postArrayAdapter = new ArrayAdapter<Post>(this, R.layout.post_list_item,
                 R.id.text1, postList) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
@@ -57,7 +68,8 @@ public class FeedActivity extends ActionBarActivity {
                             //update view//
                             ((TextView) v).setText(getItem(position).getUpvotes());
 
-                            //TODO update database
+                            //TODO update remote database//
+                            //firebaseSource.upvote(postClicked.getId());
                         }
                     }
                 });
@@ -70,6 +82,36 @@ public class FeedActivity extends ActionBarActivity {
         postsListView.setAdapter(postArrayAdapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        updatePostList();
+        postArrayAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * helper method that clears out old postList and adds
+     * the updated firebase results to it, then sorts the list.
+     */
+    private void updatePostList() {
+
+        //updated post list//
+        List<Post> newPosts = firebaseSource.listPosts();
+
+        if (postList == null) {
+            postList = newPosts;
+
+        } else {
+
+            //clear old post list and add new//
+            postList.clear();
+            postList.addAll(newPosts);
+        }
+
+        Collections.sort(postList);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,7 +128,14 @@ public class FeedActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_make_post) {
+
+            //launch CreatePostActivity with user data//
+            Intent intent = new Intent(this, CreatePostActivity.class);
+            intent.putExtra(CreatePostActivity.KEY_USER, currentUser);
+
+            startActivity(intent);
+
             return true;
         }
 

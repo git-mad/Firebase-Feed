@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_make_post"
-        android:title="@string/write_post"
+        android:title="@string/title_activity_create_post"
         android:icon="@android:drawable/ic_input_add"
         android:orderInCategory="100"
         app:showAsAction="always" />

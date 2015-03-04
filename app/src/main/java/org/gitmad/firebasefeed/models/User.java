@@ -1,11 +1,12 @@
 package org.gitmad.firebasefeed.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Brian on 2/25/2015.
  */
-public class User {
+public class User implements Serializable {
 
     private int id;
     private ArrayList<Post> posts;
