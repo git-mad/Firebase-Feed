@@ -27,19 +27,41 @@ public class FeedActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        ListView postsListView = (ListView) findViewById(R.id.postsListView);
+        final ListView postsListView = (ListView) findViewById(R.id.postsListView);
 
         //anon inner ArrayAdapter subclass to display upvotes//
         ArrayAdapter<Post> postArrayAdapter = new ArrayAdapter<Post>(this, R.layout.post_list_item,
                 R.id.text1, postList) {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(final int position, View convertView, ViewGroup parent) {
                 //use default behavior to set main text with Post#toString()
                 View v = super.getView(position, convertView, parent);
 
                 //set upvotes text//
-                ((TextView) v.findViewById(R.id.upvotesTextView))
-                        .setText(getItem(position).getUpvotes());
+                TextView upvotesTextView = (TextView) v.findViewById(R.id.upvotesTextView);
+                upvotesTextView.setText(getItem(position).getUpvotes());
+
+                //set click listener to increment upvotes when TextView is clicked//
+                upvotesTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Post postClicked = getItem(position);
+
+                        //cant upvote twice//
+                        if (!currentUser.hasUpvoted(postClicked.getId())) {
+
+                            //update data model//
+                            postClicked.upvote();
+
+                            //update view//
+                            ((TextView) v).setText(getItem(position).getUpvotes());
+
+                            //TODO update database
+                        }
+                    }
+                });
+
 
                 return v;
             }
