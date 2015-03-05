@@ -9,21 +9,21 @@ public class Post implements Comparable<Post>, Serializable {
 
     private String title;
     private String text;
-    private int id;
+    private String id;
     private int upvotes;
     private long timePosted;
 
-    public Post(String text, int id, int upvotes)
+    public Post(String text, int upvotes)
     {
         this.text = text;
-        this.id = id;
+        this.id = null;
         this.upvotes = upvotes;
         timePosted = System.currentTimeMillis();
     }
 
-    public Post(String title, String text, int id, int upvotes)
+    public Post(String title, String text, int upvotes)
     {
-        this(text, id, upvotes);
+        this(text,  upvotes);
         this.title = title;
     }
 
@@ -43,9 +43,11 @@ public class Post implements Comparable<Post>, Serializable {
         return text;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
+
+    public void setId(String id) {this.id = id;}
 
     public int getUpvotes() {
         return upvotes;
@@ -60,4 +62,7 @@ public class Post implements Comparable<Post>, Serializable {
         //later  == greater//
         return (int) (this.timePosted - another.timePosted);
     }
+
+
+
 }

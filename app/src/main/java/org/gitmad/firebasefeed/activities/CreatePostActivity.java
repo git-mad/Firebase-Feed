@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.gitmad.firebasefeed.R;
+import org.gitmad.firebasefeed.firebase.FirebaseSource;
+import org.gitmad.firebasefeed.firebase.IFirebaseSource;
+import org.gitmad.firebasefeed.models.Post;
 
 public class CreatePostActivity extends ActionBarActivity {
 
@@ -19,6 +22,7 @@ public class CreatePostActivity extends ActionBarActivity {
     private EditText titleEditText;
     private EditText postEditText;
     private Button submitButton, cancelButton;
+    private IFirebaseSource mFirebaseSource;
 
     private String title;
     private String postText;
@@ -27,6 +31,8 @@ public class CreatePostActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
+        mFirebaseSource = new FirebaseSource();
 
         titleEditText = (EditText) findViewById(R.id.titleEditText);
         postEditText = (EditText) findViewById(R.id.postEditText);
@@ -44,7 +50,9 @@ public class CreatePostActivity extends ActionBarActivity {
                         title = titleEditText.getText().toString();
                         postText = postEditText.getText().toString();
 
-                        //TODO: Send post to Firebase
+                        Post post = new Post(title, postText, 1);
+                        mFirebaseSource.AddPost(post);
+                        //post now has id set.
                         Toast.makeText(CreatePostActivity.this, "Submit Clicked!", Toast.LENGTH_SHORT).show();
                     }
                 }
