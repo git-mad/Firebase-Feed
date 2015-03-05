@@ -32,7 +32,7 @@ public class CreatePostActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        mFirebaseSource = new FirebaseSource();
+        mFirebaseSource = new FirebaseSource(null);
 
         titleEditText = (EditText) findViewById(R.id.titleEditText);
         postEditText = (EditText) findViewById(R.id.postEditText);

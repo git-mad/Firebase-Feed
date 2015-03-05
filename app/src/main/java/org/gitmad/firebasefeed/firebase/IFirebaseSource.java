@@ -11,7 +11,6 @@ import java.util.List;
 public interface IFirebaseSource
 {
     void AddPost(Post post);
-    List<Post> listPosts();
     Post getPost(int id);
 
     User getUser(int id);

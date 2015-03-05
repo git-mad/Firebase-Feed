@@ -10,7 +10,7 @@ public class User implements Serializable {
 
     private int id;
     private ArrayList<Post> posts;
-    private ArrayList<Integer> upvotedPostIds;
+    private ArrayList<String> upvotedPostIds;
 
     public User(int id) {
         this.id = id;
@@ -24,7 +24,7 @@ public class User implements Serializable {
      * @param postId id of the post being checked
      * @return true if upvoted, false otherwise
      */
-    public boolean hasUpvoted(int postId) {
+    public boolean hasUpvoted(String postId) {
         if (upvotedPostIds.contains(postId)) {
             return false;
         } else {

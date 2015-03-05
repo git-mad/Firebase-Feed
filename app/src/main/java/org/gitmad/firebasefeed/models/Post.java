@@ -13,6 +13,7 @@ public class Post implements Comparable<Post>, Serializable {
     private int upvotes;
     private long timePosted;
 
+
     public Post(String text, int upvotes)
     {
         this.text = text;
@@ -25,6 +26,11 @@ public class Post implements Comparable<Post>, Serializable {
     {
         this(text,  upvotes);
         this.title = title;
+    }
+
+
+    public Post()  //for firebase
+    {
     }
 
     public void upvote() {
@@ -61,6 +67,17 @@ public class Post implements Comparable<Post>, Serializable {
     public int compareTo(Post another) {
         //later  == greater//
         return (int) (this.timePosted - another.timePosted);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if(!(o instanceof Post))
+        {
+            return false;
+        }
+        Post p = (Post)o;
+        return p.getId() == getId();
     }
 
 

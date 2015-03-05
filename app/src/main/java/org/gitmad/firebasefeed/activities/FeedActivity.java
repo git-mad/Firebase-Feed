@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.gitmad.firebasefeed.R;
+import org.gitmad.firebasefeed.firebase.FirebaseSource;
 import org.gitmad.firebasefeed.firebase.IFirebaseSource;
 import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
@@ -21,19 +22,21 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class FeedActivity extends ActionBarActivity {
+public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
     private List<Post> postList;
     private User currentUser;
 
     private IFirebaseSource firebaseSource;
-    //TODO instantiate this somewhere
     private ArrayAdapter<Post> postArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        //Instantiate source with activity as updateable
+        firebaseSource = new FirebaseSource(this);
 
         //initialize post list to be updated later//
         postList = new ArrayList<>();
@@ -85,33 +88,8 @@ public class FeedActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        updatePostList();
-        postArrayAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * helper method that clears out old postList and adds
-     * the updated firebase results to it, then sorts the list.
-     */
-    private void updatePostList() {
-
-        //updated post list//
-        List<Post> newPosts = firebaseSource.listPosts();
-
-        if (postList == null) {
-            postList = newPosts;
-
-        } else {
-
-            //clear old post list and add new//
-            postList.clear();
-            postList.addAll(newPosts);
-        }
-
-        Collections.sort(postList);
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,5 +118,23 @@ public class FeedActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void addPost(Post post)
+    {
+        if(postList == null)
+        {
+            postList = new ArrayList<>();
+        }
+        postList.add(post);
+        postArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void removePost(Post removed_post)
+    {
+        postList.remove(removed_post);
+        postArrayAdapter.notifyDataSetChanged();
     }
 }
