@@ -1,8 +1,10 @@
 package org.gitmad.firebasefeed.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,11 +20,12 @@ import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
 public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
+
+    private String user_id;
 
     private List<Post> postList;
     private User currentUser;
@@ -34,6 +37,9 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        user_id = Integer.toString(tMgr.getLine1Number().hashCode());
 
         //Instantiate source with activity as updateable
         firebaseSource = new FirebaseSource(this);
@@ -49,21 +55,23 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 //use default behavior to set main text with Post#toString()
-                View post = super.getView(position, convertView, parent);
+                View postView = super.getView(position, convertView, parent);
 
                 //set Title Text.
-                final TextView titleTextView = (TextView)post.findViewById(R.id.listItem_titleText);
+                final TextView titleTextView = (TextView)postView.findViewById(R.id.listItem_titleText);
                 titleTextView.setText(getItem(position).getTitle());
                 //set upvotes text//
-                TextView upvotesTextView = (TextView) post.findViewById(R.id.upvotesTextView);
+                TextView upvotesTextView = (TextView) postView.findViewById(R.id.upvotesTextView);
                 upvotesTextView.setText(Integer.toString(getItem(position).getUpvotes()));
 
                 //set click listener to go to detailed post view
-                post.setOnClickListener(new View.OnClickListener() {
+                postView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(v.getContext(), DetailedPostView.class);
-                        i.putExtra("Title", titleTextView.getText());
+                        i.putExtra("user_id", user_id);
+                        i.putExtra("title", titleTextView.getText());
+                        i.putExtra("content", getItem(position).getContent());
                         startActivity(i);
                     }
                 });
@@ -75,22 +83,19 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
                         Post postClicked = getItem(position);
 
-                        //cant upvote twice//
-                        if (!currentUser.hasUpvoted(postClicked.getId())) {
+                        //update data model//
+                        postClicked.upvote(user_id);
 
-                            //update data model//
-                            postClicked.upvote();
+                        //update view//
+                        ((TextView) v).setText(Integer.toString(getItem(position).getUpvotes()));
 
-                            //update view//
-                            ((TextView) v).setText(getItem(position).getUpvotes());
+                        //TODO update remote database//
+                        //firebaseSource.upvote(postClicked.getId());
 
-                            //TODO update remote database//
-                            //firebaseSource.upvote(postClicked.getId());
-                        }
                     }
                 });
 
-                return post;
+                return postView;
             }
         };
 

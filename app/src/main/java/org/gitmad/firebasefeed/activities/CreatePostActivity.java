@@ -1,18 +1,14 @@
 package org.gitmad.firebasefeed.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.gitmad.firebasefeed.R;
@@ -22,7 +18,7 @@ import org.gitmad.firebasefeed.models.Post;
 
 public class CreatePostActivity extends ActionBarActivity {
 
-    private String KEY_USER;
+    Intent intent;
 
     private EditText titleEditText;
     private EditText postEditText;
@@ -30,12 +26,14 @@ public class CreatePostActivity extends ActionBarActivity {
     private IFirebaseSource mFirebaseSource;
 
     private String title;
-    private String postText;
+    private String content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+
+        intent = getIntent();
 
         mFirebaseSource = new FirebaseSource(null);
 
@@ -44,11 +42,8 @@ public class CreatePostActivity extends ActionBarActivity {
         submitButton = (Button) findViewById(R.id.submitButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
-        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        KEY_USER = Integer.toString(tMgr.getLine1Number().hashCode());
-
         title = "";
-        postText = "";
+        content = "";
 
         submitButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -56,9 +51,9 @@ public class CreatePostActivity extends ActionBarActivity {
                     public void onClick(View v) {
 
                         title = titleEditText.getText().toString();
-                        postText = postEditText.getText().toString();
+                        content = postEditText.getText().toString();
 
-                        Post post = new Post(title, postText, 1);
+                        Post post = new Post(title, content, intent.getStringExtra("user_id"));
                         mFirebaseSource.AddPost(post);
                         //post now has id set.
                         Toast.makeText(CreatePostActivity.this, "Submit Clicked!", Toast.LENGTH_SHORT).show();
