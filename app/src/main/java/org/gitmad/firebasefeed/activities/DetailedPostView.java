@@ -11,8 +11,10 @@ import org.gitmad.firebasefeed.R;
 
 public class DetailedPostView extends ActionBarActivity {
 
-    TextView titleTextView;
     Intent intent;
+
+    TextView contentTextView;
+    TextView titleTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,9 @@ public class DetailedPostView extends ActionBarActivity {
         intent = getIntent();
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
-        titleTextView.setText(intent.getStringExtra("Title"));
+        titleTextView.setText(intent.getStringExtra("title"));
+
+
     }
 
 

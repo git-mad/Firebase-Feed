@@ -10,27 +10,10 @@ public class User implements Serializable {
 
     private int id;
     private ArrayList<Post> posts;
-    private ArrayList<String> upvotedPostIds;
 
     public User(int id) {
         this.id = id;
-        posts = new ArrayList<>();
-        upvotedPostIds = new ArrayList<>();
-    }
-
-    /**
-     * checks if this user has already upvoted the post with the id specified
-     *
-     * @param postId id of the post being checked
-     * @return true if upvoted, false otherwise
-     */
-    public boolean hasUpvoted(String postId) {
-        if (upvotedPostIds.contains(postId)) {
-            return false;
-        } else {
-            upvotedPostIds.add(postId);
-            return true;
-        }
+        this.posts = new ArrayList<>();
     }
 
     public int getId() {

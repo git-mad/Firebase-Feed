@@ -1,6 +1,8 @@
 package org.gitmad.firebasefeed.models;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Brian on 2/25/2015.
@@ -8,33 +10,37 @@ import java.io.Serializable;
 public class Post implements Comparable<Post>, Serializable {
 
     private String title;
-    private String text;
+    private String content;
     private String id;
+    private String user_id;
     private int upvotes;
+    private Set<String> upvoted;
     private long timePosted;
 
 
-    public Post(String text, int upvotes)
+    public Post(String title, String content, String user_id)
     {
-        this.text = text;
-        this.id = null;
-        this.upvotes = upvotes;
-        timePosted = System.currentTimeMillis();
-    }
-
-    public Post(String title, String text, int upvotes)
-    {
-        this(text,  upvotes);
         this.title = title;
+        this.content = content;
+        this.id = null;
+        this.user_id = user_id;
+        this.upvoted = new HashSet<>();
+        upvoted.add(user_id);
+        this.upvotes = 1;
+        timePosted = System.currentTimeMillis();
     }
 
 
     public Post()  //for firebase
     {
+        this.upvoted = new HashSet<>();
     }
 
-    public void upvote() {
-        upvotes++;
+    public void upvote(String user_id) {
+        if (!upvoted.contains(user_id)) {
+            upvotes++;
+            upvoted.add(user_id);
+        }
     }
 
     public String getTitle() {
@@ -45,8 +51,8 @@ public class Post implements Comparable<Post>, Serializable {
         this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getContent() {
+        return content;
     }
 
     public String getId() {
