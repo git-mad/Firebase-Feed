@@ -49,14 +49,24 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 //use default behavior to set main text with Post#toString()
-                View v = super.getView(position, convertView, parent);
+                View post = super.getView(position, convertView, parent);
 
                 //set Title Text.
-                TextView titleTextView = (TextView)v.findViewById(R.id.listItem_titleText);
+                final TextView titleTextView = (TextView)post.findViewById(R.id.listItem_titleText);
                 titleTextView.setText(getItem(position).getTitle());
                 //set upvotes text//
-                TextView upvotesTextView = (TextView) v.findViewById(R.id.upvotesTextView);
+                TextView upvotesTextView = (TextView) post.findViewById(R.id.upvotesTextView);
                 upvotesTextView.setText(Integer.toString(getItem(position).getUpvotes()));
+
+                //set click listener to go to detailed post view
+                post.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(v.getContext(), DetailedPostView.class);
+                        i.putExtra("Title", titleTextView.getText());
+                        startActivity(i);
+                    }
+                });
 
                 //set click listener to increment upvotes when TextView is clicked//
                 upvotesTextView.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +90,7 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
                     }
                 });
 
-
-                return v;
+                return post;
             }
         };
 
@@ -113,7 +122,6 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
             //launch CreatePostActivity with user data//
             Intent intent = new Intent(this, CreatePostActivity.class);
-            intent.putExtra(CreatePostActivity.KEY_USER, currentUser);
 
             startActivity(intent);
 

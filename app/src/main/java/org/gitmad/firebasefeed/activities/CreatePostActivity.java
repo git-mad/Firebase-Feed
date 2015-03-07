@@ -1,9 +1,11 @@
 package org.gitmad.firebasefeed.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +22,7 @@ import org.gitmad.firebasefeed.models.Post;
 
 public class CreatePostActivity extends ActionBarActivity {
 
-    public static final String KEY_USER = "userkey";
+    private String KEY_USER;
 
     private EditText titleEditText;
     private EditText postEditText;
@@ -41,6 +43,9 @@ public class CreatePostActivity extends ActionBarActivity {
         postEditText = (EditText) findViewById(R.id.postEditText);
         submitButton = (Button) findViewById(R.id.submitButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
+
+        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        KEY_USER = Integer.toString(tMgr.getLine1Number().hashCode());
 
         title = "";
         postText = "";
