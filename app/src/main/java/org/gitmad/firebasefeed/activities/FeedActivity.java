@@ -43,7 +43,13 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
         setContentView(R.layout.activity_feed);
 
         TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        user_id = Integer.toString(tMgr.getLine1Number().hashCode());
+
+        if(tMgr.getLine1Number() != null)
+        {
+            user_id = Integer.toString(tMgr.getLine1Number().hashCode());
+        }
+        else
+            user_id = Integer.toString("14789559412".hashCode());
 
         //Instantiate source with activity as updateable
         firebaseSource = new FirebaseSource(this);

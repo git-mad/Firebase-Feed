@@ -72,6 +72,7 @@ public class FirebaseSource implements IFirebaseSource {
         Firebase newPostRef = postsRef.push();
         post.setId(newPostRef.getKey());
         newPostRef.setValue(post);
+        
     }
 
     @Override
