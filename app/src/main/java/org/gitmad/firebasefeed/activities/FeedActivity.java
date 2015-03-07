@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 import org.gitmad.firebasefeed.R;
 import org.gitmad.firebasefeed.firebase.FirebaseSource;
 import org.gitmad.firebasefeed.firebase.IFirebaseSource;
@@ -20,7 +22,9 @@ import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
@@ -85,6 +89,12 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
                         //update data model//
                         postClicked.upvote(user_id);
+                        Firebase postRef = firebaseSource.getPost(postClicked.getId());
+                        Map<String, Object> updates = new HashMap<>();
+
+                        updates.put("upvoted", new ArrayList<Object>(postClicked.getUpvoted()));
+                        updates.put("upvotes", postClicked.getUpvotes());
+                        postRef.updateChildren(updates);
 
                         //update view//
                         ((TextView) v).setText(Integer.toString(getItem(position).getUpvotes()));

@@ -13,8 +13,8 @@ public class DetailedPostView extends ActionBarActivity {
 
     Intent intent;
 
-    TextView contentTextView;
     TextView titleTextView;
+    TextView contentTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,8 @@ public class DetailedPostView extends ActionBarActivity {
         titleTextView = (TextView) findViewById(R.id.titleTextView);
         titleTextView.setText(intent.getStringExtra("title"));
 
-
+        contentTextView = (TextView) findViewById(R.id.contentTextView);
+        contentTextView.setText(intent.getStringExtra("content"));
     }
 
 

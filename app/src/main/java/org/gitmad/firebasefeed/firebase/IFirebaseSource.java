@@ -1,5 +1,7 @@
 package org.gitmad.firebasefeed.firebase;
 
+import com.firebase.client.Firebase;
+
 import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
 
@@ -11,9 +13,9 @@ import java.util.List;
 public interface IFirebaseSource
 {
     void AddPost(Post post);
-    Post getPost(int id);
+    Firebase getPost(String post_id);
 
-    User getUser(int id);
+    Firebase getUser(String user_id);
 
     /*
         void upvote(int postId);

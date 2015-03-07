@@ -65,6 +65,10 @@ public class Post implements Comparable<Post>, Serializable {
         return upvotes;
     }
 
+    public Set<String> getUpvoted() {
+        return upvoted;
+    }
+
     public long getTimePosted() {
         return timePosted;
     }

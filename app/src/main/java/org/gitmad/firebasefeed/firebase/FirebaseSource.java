@@ -75,12 +75,12 @@ public class FirebaseSource implements IFirebaseSource {
     }
 
     @Override
-    public Post getPost(int id) {
-        return null;
+    public Firebase getPost(String post_id) {
+        return postsRef.child(post_id);
     }
 
     @Override
-    public User getUser(int id) {
-        return null;
+    public Firebase getUser(String user_id) {
+        return usersRef.child(user_id);
     }
 }
