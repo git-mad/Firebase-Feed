@@ -26,7 +26,7 @@ public class Post implements Comparable<Post>, Serializable {
         this.user_id = user_id;
         this.upvoted = new HashSet<>();
         upvoted.add(user_id);
-        this.upvotes = 1;
+        this.upvotes = 0;
         timePosted = System.currentTimeMillis();
     }
 
