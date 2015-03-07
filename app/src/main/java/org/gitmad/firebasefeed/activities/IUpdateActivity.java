@@ -11,6 +11,8 @@ public interface IUpdateActivity
 {
     public void addPost(Post post);
 
+    public void updatePost(Post post);
+
     public void removePost(Post removed_post);
 
 

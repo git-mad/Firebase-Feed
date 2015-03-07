@@ -43,6 +43,14 @@ public class Post implements Comparable<Post>, Serializable {
         }
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -55,6 +63,10 @@ public class Post implements Comparable<Post>, Serializable {
         return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public String getId() {
         return id;
     }
@@ -65,8 +77,16 @@ public class Post implements Comparable<Post>, Serializable {
         return upvotes;
     }
 
+    public void setUpvotes(int upvotes) {
+        this.upvotes = upvotes;
+    }
+
     public Set<String> getUpvoted() {
         return upvoted;
+    }
+
+    public void setUpvoted(Set<String> upvoted) {
+        this.upvoted = upvoted;
     }
 
     public long getTimePosted() {

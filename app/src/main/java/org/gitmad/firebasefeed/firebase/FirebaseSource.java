@@ -44,7 +44,10 @@ public class FirebaseSource implements IFirebaseSource {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                Post post = dataSnapshot.getValue(Post.class);
+                if (updateableActivity != null) {
+                    FirebaseSource.this.updateableActivity.updatePost(post);
+                }
             }
 
             @Override

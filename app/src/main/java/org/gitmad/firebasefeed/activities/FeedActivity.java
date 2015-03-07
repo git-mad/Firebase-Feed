@@ -164,6 +164,25 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
     }
 
     @Override
+    public void updatePost(Post post) {
+        if (postList == null)
+        {
+            postList = new ArrayList<>();
+        }
+
+        for (Post p : postList) {
+            if (p.getId().equals(post.getId())) {
+                p.setTitle(post.getTitle());
+                p.setContent(post.getContent());
+                p.setUpvotes(post.getUpvotes());
+                p.setUpvoted(post.getUpvoted());
+            }
+        }
+
+        postArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void removePost(Post removed_post)
     {
         postList.remove(removed_post);
