@@ -1,7 +1,10 @@
 package org.gitmad.firebasefeed.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +57,9 @@ public class CreatePostActivity extends ActionBarActivity {
                         mFirebaseSource.AddPost(post);
                         //post now has id set.
                         Toast.makeText(CreatePostActivity.this, "Submit Clicked!", Toast.LENGTH_SHORT).show();
+
+                        ((Activity) v.getContext()).finish();
+
                     }
                 }
         );

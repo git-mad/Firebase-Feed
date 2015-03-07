@@ -45,15 +45,18 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
         //anon inner ArrayAdapter subclass to display upvotes//
         postArrayAdapter = new ArrayAdapter<Post>(this, R.layout.post_list_item,
-                R.id.text1, postList) {
+                R.id.listItem_titleText, postList) {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 //use default behavior to set main text with Post#toString()
                 View v = super.getView(position, convertView, parent);
 
+                //set Title Text.
+                TextView titleTextView = (TextView)v.findViewById(R.id.listItem_titleText);
+                titleTextView.setText(getItem(position).getTitle());
                 //set upvotes text//
                 TextView upvotesTextView = (TextView) v.findViewById(R.id.upvotesTextView);
-                upvotesTextView.setText(getItem(position).getUpvotes());
+                upvotesTextView.setText(Integer.toString(getItem(position).getUpvotes()));
 
                 //set click listener to increment upvotes when TextView is clicked//
                 upvotesTextView.setOnClickListener(new View.OnClickListener() {

@@ -24,7 +24,7 @@ public class FirebaseSource implements IFirebaseSource {
     private IUpdateActivity updateableActivity;
     private final String FIREBASE_URL = "http://bitter.firebaseio.com";
 
-    public FirebaseSource(IUpdateActivity updateableActivity)
+    public FirebaseSource(final IUpdateActivity updateableActivity)
     {
         root = new Firebase(FIREBASE_URL);
         postsRef = root.child("posts");
@@ -36,7 +36,10 @@ public class FirebaseSource implements IFirebaseSource {
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
                 Post post = dataSnapshot.getValue(Post.class);
-                FirebaseSource.this.updateableActivity.addPost(post);
+                if(updateableActivity != null)
+                {
+                    FirebaseSource.this.updateableActivity.addPost(post);
+                }
             }
 
             @Override

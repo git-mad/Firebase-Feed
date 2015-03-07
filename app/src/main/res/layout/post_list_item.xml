@@ -5,10 +5,11 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/text1"
+        android:id="@+id/listItem_titleText"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:layout_height="match_parent"
+        android:text="test"
         android:padding="10dp"/>
 
     <TextView
@@ -17,6 +18,7 @@
         android:layout_weight="1"
         android:layout_height="match_parent"
         android:textSize="50sp"
+        android:text="test"
         android:gravity="center"/>
 
 
