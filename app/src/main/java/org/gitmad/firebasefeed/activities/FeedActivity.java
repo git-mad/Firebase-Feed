@@ -2,6 +2,7 @@ package org.gitmad.firebasefeed.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -42,14 +43,9 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
-        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 
-        if(tMgr.getLine1Number() != null)
-        {
-            user_id = Integer.toString(tMgr.getLine1Number().hashCode());
-        }
-        else
-            user_id = Integer.toString("14789559412".hashCode());
+
+        user_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
         //Instantiate source with activity as updateable
         firebaseSource = new FirebaseSource(this);
@@ -159,7 +155,7 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
         {
             postList = new ArrayList<>();
         }
-        postList.add(post);
+        postList.add(0, post);
         postArrayAdapter.notifyDataSetChanged();
     }
 
