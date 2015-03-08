@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import org.gitmad.firebasefeed.R;
 import org.gitmad.firebasefeed.firebase.FirebaseSource;
-import org.gitmad.firebasefeed.firebase.IFirebaseSource;
 import org.gitmad.firebasefeed.models.Post;
 
 public class CreatePostActivity extends ActionBarActivity {
@@ -23,7 +22,7 @@ public class CreatePostActivity extends ActionBarActivity {
     private EditText titleEditText;
     private EditText postEditText;
     private Button submitButton, cancelButton;
-    private IFirebaseSource mFirebaseSource;
+    private FirebaseSource mFirebaseSource;
 
     private String title;
     private String content;
@@ -50,15 +49,9 @@ public class CreatePostActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
 
-                        title = titleEditText.getText().toString();
-                        content = postEditText.getText().toString();
+                        //TODO(agrion): Create and add a post
 
-                        Post post = new Post(title, content, intent.getStringExtra("user_id"));
-                        mFirebaseSource.AddPost(post);
-                        //post now has id set.
-                        Toast.makeText(CreatePostActivity.this, "Submit Clicked!", Toast.LENGTH_SHORT).show();
-
-                        ((Activity) v.getContext()).finish();
+                        CreatePostActivity.this.finish();
 
                     }
                 }
@@ -69,8 +62,8 @@ public class CreatePostActivity extends ActionBarActivity {
                     @Override
                     public void onClick(View v)
                     {
-                        //TODO: Go back to home page.
                         Toast.makeText(CreatePostActivity.this, "Cancel Clicked!", Toast.LENGTH_SHORT).show();
+                        CreatePostActivity.this.finish();
                     }
                 }
         );

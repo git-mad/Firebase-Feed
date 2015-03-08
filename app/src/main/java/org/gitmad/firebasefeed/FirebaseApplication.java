@@ -11,7 +11,7 @@ public class FirebaseApplication extends Application
 {
     @Override
     public void onCreate() {
-        Firebase.setAndroidContext(this);
+        //TODO(abettadapur): Initialize Firebase for the application
         super.onCreate();
     }
 }

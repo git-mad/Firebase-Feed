@@ -18,7 +18,6 @@ import com.firebase.client.Firebase;
 
 import org.gitmad.firebasefeed.R;
 import org.gitmad.firebasefeed.firebase.FirebaseSource;
-import org.gitmad.firebasefeed.firebase.IFirebaseSource;
 import org.gitmad.firebasefeed.models.Post;
 import org.gitmad.firebasefeed.models.User;
 
@@ -35,7 +34,7 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
     private List<Post> postList;
     private User currentUser;
 
-    private IFirebaseSource firebaseSource;
+    private FirebaseSource firebaseSource;
     private ArrayAdapter<Post> postArrayAdapter;
 
     @Override
@@ -55,7 +54,9 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
 
         final ListView postsListView = (ListView) findViewById(R.id.postsListView);
 
+
         //anon inner ArrayAdapter subclass to display upvotes//
+        //TODO(bmurphy): Discuss list view
         postArrayAdapter = new ArrayAdapter<Post>(this, R.layout.post_list_item,
                 R.id.listItem_titleText, postList) {
             @Override
@@ -155,8 +156,7 @@ public class FeedActivity extends ActionBarActivity implements IUpdateActivity{
         {
             postList = new ArrayList<>();
         }
-        postList.add(0, post);
-        postArrayAdapter.notifyDataSetChanged();
+        //TODO: Add a new post!
     }
 
     @Override

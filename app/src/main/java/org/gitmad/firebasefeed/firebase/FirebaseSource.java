@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Created by Alex on 3/5/2015.
  */
-public class FirebaseSource implements IFirebaseSource {
+public class FirebaseSource {
 
     private Firebase root;
     private Firebase postsRef;
@@ -31,59 +31,22 @@ public class FirebaseSource implements IFirebaseSource {
         usersRef = root.child("users");
         this.updateableActivity = updateableActivity;
 
-        postsRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s)
-            {
-                Post post = dataSnapshot.getValue(Post.class);
-                if(updateableActivity != null)
-                {
-                    FirebaseSource.this.updateableActivity.addPost(post);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Post post = dataSnapshot.getValue(Post.class);
-                if (updateableActivity != null) {
-                    FirebaseSource.this.updateableActivity.updatePost(post);
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot)
-            {
-                Post post = dataSnapshot.getValue(Post.class);
-                FirebaseSource.this.updateableActivity.removePost(post);
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+       //TODO(abettadapur): Add an event listener
     }
 
-    @Override
+
     public void AddPost(Post post)
     {
-        Firebase newPostRef = postsRef.push();
-        post.setId(newPostRef.getKey());
-        newPostRef.setValue(post);
+       //TODO(abettadapur): Add a post
         
     }
 
-    @Override
+
     public Firebase getPost(String post_id) {
         return postsRef.child(post_id);
     }
 
-    @Override
+
     public Firebase getUser(String user_id) {
         return usersRef.child(user_id);
     }
